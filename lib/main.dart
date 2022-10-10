@@ -80,12 +80,15 @@ class MyAppState extends State<MyApp> with WindowListener {
       setState(() {
         _nextMove = parts[4];
       });
+    } else {
+      _nextMove = "";
     }
   }
 
   void _movehappen() {
     _fenController.text = _chessController.getFen();
-    print(_fenController.text + "/n ${_nextMove.substring(1, 3)}");
+    print(_fenController.text +
+        " ${_nextMove != "" ? _nextMove.substring(2, 4) : ""}");
     if (_stockfish.state.value == StockfishState.ready) {
       _computeNextMove();
     }
@@ -286,7 +289,8 @@ class MyAppState extends State<MyApp> with WindowListener {
                 onPressed: _computeNextMove,
                 child: const Text('Search next move'),
               ),
-              Text('Best move: $_nextMove'),
+              Text(
+                  'Best move: ${_nextMove != "" ? _nextMove.substring(0, 2) : ""},${_nextMove != "" ? _nextMove.substring(2, 4) : ""}'),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -306,15 +310,15 @@ class MyAppState extends State<MyApp> with WindowListener {
                   child: csb.ChessBoard(
                     controller: _chessController,
                     boardColor: csb.BoardColor.orange,
-                    // arrows: _nextMove != ""
-                    //     ? ([
-                    //         csb.BoardArrow(
-                    //           from: _nextMove.substring(1, 3),
-                    //           to: _nextMove.substring(3, 5),
-                    //           color: Colors.green.withOpacity(0.5),
-                    //         ),
-                    //       ])
-                    //     : [],
+                    arrows: _nextMove != ""
+                        ? ([
+                            csb.BoardArrow(
+                              from: _nextMove.substring(0, 2),
+                              to: _nextMove.substring(2, 4),
+                              color: Colors.green.withOpacity(0.5),
+                            ),
+                          ])
+                        : [],
                     boardOrientation: csb.PlayerColor.white,
                   ),
                 ),
