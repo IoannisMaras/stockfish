@@ -86,11 +86,11 @@ class MyAppState extends State<MyApp> with WindowListener {
   }
 
   void _movehappen() {
-    _fenController.text = _chessController.getFen();
-    print(_fenController.text +
-        " ${_nextMove != "" ? _nextMove.substring(2, 4) : ""}");
-    if (_stockfish.state.value == StockfishState.ready) {
-      _computeNextMove();
+    if (_fenController.text != _chessController.getFen()) {
+      _fenController.text = _chessController.getFen();
+      if (_stockfish.state.value == StockfishState.ready) {
+        _computeNextMove();
+      }
     }
   }
 
@@ -183,86 +183,6 @@ class MyAppState extends State<MyApp> with WindowListener {
 
   @override
   Widget build(BuildContext context) {
-    // return SafeArea(
-    //   child: Scaffold(
-    //     appBar: AppBar(
-    //       title: const Text('Chess Demo2'),
-    //     ),
-    //     body: Column(
-    //       children: [
-    //         Expanded(
-    //           child: Center(
-    //             child: csb.ChessBoard(
-    //               controller: controller,
-    //               boardColor: csb.BoardColor.orange,
-    //               // arrows: _nextMove != ""
-    //               //     ? ([
-    //               //         csb.BoardArrow(
-    //               //           from: _nextMove.substring(1, 3),
-    //               //           to: _nextMove.substring(3, 5),
-    //               //           color: Colors.green.withOpacity(0.5),
-    //               //         ),
-    //               //       ])
-    //               //     : [],
-    //               boardOrientation: csb.PlayerColor.white,
-    //             ),
-    //           ),
-    //         ),
-    //         Row(
-    //           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-    //           children: [
-    //             _getStockfishStatusIcon(),
-    //             ElevatedButton(
-    //               onPressed: _startStockfishIfNecessary,
-    //               child: const Text('Start Stockfish'),
-    //             ),
-    //             ElevatedButton(
-    //               onPressed: _stopStockfish,
-    //               child: const Text('Stop Stockfish'),
-    //             ),
-    //           ],
-    //         ),
-    //         ElevatedButton(
-    //           onPressed: _computeNextMove,
-    //           child: const Text('Search next move'),
-    //         ),
-    //         Expanded(
-    //           child: ValueListenableBuilder<csb.Chess>(
-    //             valueListenable: controller,
-    //             builder: (context, game, _) {
-    //               _fenController.text = controller.getFen();
-    //               print(_fenController.text);
-    //               if (_stockfish.state.value == StockfishState.ready) {
-    //                 _computeNextMove();
-    //               }
-    //               return Text("test" + _stockfishOutputText);
-    //               // return Padding(
-    //               //   padding: const EdgeInsets.all(8.0),
-    //               //   child: Container(
-    //               //     width: 850.0,
-    //               //     height: 300.0,
-    //               //     decoration: BoxDecoration(
-    //               //       border: Border.all(
-    //               //         width: 2.0,
-    //               //       ),
-    //               //       borderRadius: const BorderRadius.all(
-    //               //         Radius.circular(8.0),
-    //               //       ),
-    //               //     ),
-    //               //     child: SingleChildScrollView(
-    //               //       child: Text(
-    //               //         _stockfishOutputText,
-    //               //       ),
-    //               //     ),
-    //               //   ),
-    //               // );
-    //             },
-    //           ),
-    //         ),
-    //       ],
-    //     ),
-    //   ),
-    // );
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
