@@ -72,13 +72,18 @@ class MyAppState extends State<MyApp> with WindowListener {
 
   void _readStockfishOutput(String output) {
     // At least now, stockfish is ready : update UI.
-    setState(() {
-      _stockfishOutputText = "$output\n";
-    });
+    _stockfishOutputText = "$output\n";
+    //print(output);
     if (output.contains('currmove')) {
       final parts = output.split(' ');
       setState(() {
         _nextMove = parts[4];
+      });
+    } else if (output.contains('pv')) {
+      final parts = output.split('pv ');
+      //print(parts[2].substring(0, 4));
+      setState(() {
+        _nextMove = parts[2].substring(0, 4);
       });
     } else {
       _nextMove = "";
